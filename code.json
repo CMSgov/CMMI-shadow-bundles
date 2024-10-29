@@ -1,0 +1,54 @@
+{
+  "name": "cmmi-bundles",
+  "description": {
+    "en": {
+      "shortDescription": "A short description of the project.",
+      "longDescription": "A longer description of the project."
+    }
+  },
+  "status": "archival",
+  "permissions": {
+    "licenses": [
+      {
+        "URL": "LICENSE",
+        "name": "CC0-1.0"
+      }
+    ]
+  },
+  "organization": "Centers for Medicare & Medicaid Services",
+  "repositoryURL": "https://github.com/DSACMS/cmmi-bundles",
+  "vcs": "git",
+  "laborHours": 3034.04,
+  "platforms": [
+    "windows"
+  ],
+  "categories": [
+    "data-collection, healthcare"
+  ],
+  "softwareType": "standalone/backend",
+  "languages": [
+    "SAS"
+  ],
+  "maintenance": "internal",
+  "date": {
+    "created": "2024-05-01T13:17:53-07:00",
+    "lastModified": "2024-10-29T20:28:18+0000",
+    "metadataLastUpdated": "2024-10-29T20:28:18+0000"
+  },
+  "tags": [
+    "repo, SAS, outbounded, healthcare"
+  ],
+  "contact": {
+    "email": "opensource@cms.hhs.gov",
+    "name": "CMS Open Source Program Office"
+  },
+  "localisation": "false",
+  "repoType": "Tools",
+  "userInput": "Yes",
+  "fismaLevel": "Low",
+  "group": "DSAC",
+  "subsetInHealthcare": "Operational",
+  "userType": "Goveernment",
+  "repositoryHost": "Github.com",
+  "maturityModelTier": "1"
+}
