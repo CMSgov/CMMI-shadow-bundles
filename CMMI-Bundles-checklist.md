@@ -33,29 +33,29 @@ This is a review process to approve CMS-developed software to be released open s
 
 ### State the Benefits of Open Sourcing the Project
 
-- [ ] **Cost Savings** 
+- [x] **Cost Savings** 
 by making the project freely available, this reduces licensing and acquisition costs.
-- [ ] **Ease of Repurposing**
+- [x] **Ease of Repurposing**
 The open nature of the code allows users to modify and adapt the software to suit their specific needs, fostering customization and flexibility.
-- [ ] **Minimization of Vendor Lock-in/Flexibility of Vendor Choice**
+- [x] **Minimization of Vendor Lock-in/Flexibility of Vendor Choice**
 Users are not tied to a single vendor, providing the freedom to choose between different vendors.
-- [ ] **Enable Transparency**
+- [x] **Enable Transparency**
 The source code is accessible and visible to anyone, promoting transparency in how the software functions, which helps build trust.
 - [ ] **Enable Extension/Extensibility**
 Users can extend and enhance the functionality of the software by adding their own features.
-- [ ] **Increase Interoperability**
+- [x] **Increase Interoperability**
 Planning in the open enables future compatibility and interoperability between different systems and software applications.
-- [ ] **Facilitate Experimentation/Early Adoption**
+- [x] **Facilitate Experimentation/Early Adoption**
 Working in the open encourages experimentation and early adoption of cutting-edge technologies,leading to faster innovation and improvemnet in software capabilities.
 
 ### State the Risks of Open Sourcing the Project
 
-- [ ] **Security Risks**
+- [x] **Security Risks**
 Vulnerabilities may be exposed if the code is not thoroughly reviewed, potentially leading to security breaches or exploitation.(See: [Security.md](https://github.com/DSACMS/repo-scaffolder/blob/main/SECURITY.md))Does this project connect to any CMS-internal only systems? Does this project require authorization or authentication to operate? Does this project detail any non-public directories of CMS/HHS systems or people?
-- [ ] **Financial Risks**
+- [x] **Financial Risks**
 Costs may arise from maintaining code, community engagemnet, addressing security concerns, or subscription costs, hardware costs, specialized tooling or infrastructure costs, among others. Does this project require any ongoing financial costs or subscription fees?
 (e.g. - Cloud Hosting, Specialized build systems, paid maintainers, paid libraries or dependencies.)
-- [ ] **Privacy Risks**
+- [x] **Privacy Risks**
 Does this project require access to non-public, non synthetic PII, PHI, or other internal-only CMS Systems containing such data or information?
 
 ---
@@ -71,7 +71,9 @@ Does this project require access to non-public, non synthetic PII, PHI, or other
    If you answered "yes" to any of the above questions, your project may be 'sensitive' in nature, and requires a more thorough review before sharing publicly. Please reach out to opensource@cms.hhs.gov for guidance. If you answer yes to any of these questions above, it is best to seek quidance **before** releasing open source.
 
  **Results** 
- *Insert Review Here*
+ - The application does not Personal Identifiable Information (PII) or Protected Health Information (PHI).
+ - The code does not interface with any CMS' internal-only systems.
+ - The repository does not contain any keys or credentials to access or authenticate with CMS' systems.
 
 
 
@@ -96,7 +98,14 @@ As part of the code review, engineers should reference modern listings of the mo
 
    **Results**
 
-   *Insert Review Here*
+  - Injection - Data cannot be interjected through any form inputs or other data submissions.  
+   - Broken Authentication - App does not store or use credentials. This is a tooling application with automated validation.
+   - Sensitive Data Exposure - Application does not store sensitive data or PII.
+   - XML External Entities (XEE) - Application does not parse or process XML data.
+   - Broken Access Control - Access control is not an issue, application doesn't require user accounts or roles.
+   - Security Misconfiguration - Relies on GitHub actions for automation and testing.
+   - Cross-Site Scripting (XSS) - Application does not have a web based user interface or form for user input.
+   - Insecure Deserialization - Application does not perform deserialization of external or user provided data.
 
 
    
@@ -121,7 +130,10 @@ Ideally, automated tooling for code analysis should be incorporated as a regular
 
 **Results**
 
-*Insert Review Here*
+- Code base was manually reviewed for significant software security vulnerabilities, none were present.
+- Repolinter was run for tier 1 vulnerabilities. `README.md`, `CONTRIBUTING.md` and `SECURITY.md` added. All other checks passed.
+- Gitleaks run, no vulnerabilities.
+- No files contain sensitive data.
 
 
 
@@ -141,7 +153,7 @@ If your project is not being dedicated to the public domain under CC0, due to be
 
 **Results**
 
-*Insert Review Here*
+- CC0 1.0 Universal included.
 
 
 
@@ -169,7 +181,7 @@ Consider using the following tools to perform the tasks above:
 **Results**
 
 - gitleaks was ran and no secrets were found.
-- a manual check of commit history was checked and no obscene or sensitive flags were found.
+- A manual check of commit history was checked and no obscene or sensitive flags were found.
 
 
 
@@ -211,7 +223,7 @@ repolinter lint .
 
  The project should include the following files and sections [(link to template)](https://github.com/DSACMS/repo-scaffolder/tree/main/tier1/%7B%7Bcookiecutter.project_slug%7D%7D):
 
- - [ ] **README.md**
+ - [x] **README.md**
     _An essential guide that gives viewers a detailed description of your project_
 
 
@@ -230,7 +242,7 @@ repolinter lint .
 
 *License of your project, whether public domain (CC0) or other OSI-approved License. Using 'vanilla' license text will allow for GitHub to auto-label the license information on the repository landing page.*
 
-- [ ] **CONTRIBUTING.md**
+- [x] **CONTRIBUTING.md**
 *Provide guidance on how users can run your project and make contributions to it.*
 
 | **Section**           | **Description**                                                                                                                                                                                                                                                                                     | **Included** |
@@ -247,7 +259,7 @@ _Lints repository for missing files and sections above_
 
 **Results**
 
-*The blank sections will be updated with the correct information but filled out ones are accurate.*
+*The blank sections will be updated with the correct information once context is provided but the filled out sections are accurate.*
 
 
 ### Review Repository Details
@@ -274,12 +286,12 @@ _Include in Home Page_:
 
 **Results**
 
-*After further discussion, this can be filled out*
+*The blank sections will be updated with the correct information once context is provided.*
 
 
 ### Additional Notes & Questions
 
-*After reviewing this repo, it is fills out the prerequistes of being able to open source. Some key information needs to be filled out first.*
+*After reviewing this repo, it is fills out the prerequistes of being able to open source. Missing information will be filled out when the context is given.*
 
 
 ### Sign off on risk acceptance of open-sourcing the software product

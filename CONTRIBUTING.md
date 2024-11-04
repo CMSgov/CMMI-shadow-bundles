@@ -17,7 +17,7 @@ We encourage you to read this project's CONTRIBUTING policy (you are here), its
 
 <!--- TODO: If you have 'good-first-issue' or 'easy' labels for newcomers, mention them here.-->
 
-### Building dependencies
+### Building Dependencies
 
 <!--- TODO: This step is often skipped, so don't forget to include the steps needed to install on your platform. If you project can be multi-platform, this is an excellent place for first time contributors to send patches!-->
 
