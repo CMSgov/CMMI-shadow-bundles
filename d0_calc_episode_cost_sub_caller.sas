@@ -1,6 +1,6 @@
 /*************************************************************************;
-%** PROGRAM: c0_construct_episodes_sub_caller.sas
-%** PURPOSE: To select and execute sub-macros in c series
+%** PROGRAM: d0_calculate_episode_cost_sub_caller.sas
+%** PURPOSE: To select and execute sub-callers/macros in d series
 %** AUTHOR: Acumen, LLC
 %** DATE CREATED: 09/06/2024
 %** DATE LAST MODIFIED: 09/06/2024
@@ -21,27 +21,36 @@ RESTRICTED RIGHTS NOTICE (SEPT 2014)
 
 (End of notice)
 *************************************************************************/
-%macro c0_construct_episodes_sub_caller();
+%macro d0_calc_episode_cost_sub_caller();
 
    *print log;
-   %create_log_file(log_file_name = c0_construct_episodes_sub_caller);
-  
-   *map MS-DRGs to represent the performing FYs;
-   %c1_remap_ms_drg();
+   %create_log_file(log_file_name = d0_calc_episode_cost_sub_caller);
 
-   *create provider type indicators for IP stays and OP claim-lines;
-   %c2_flag_provider_types();
+   *gather all claims starting during an episode window or post-episode period;
+   %d1_group_clms_to_epi();
 
-   *resolve acute to acute transfer stays;
-   %c3_resolve_transfer_stays();
+   *identify qualifying OP claim-lines to be grouped to episodes;
+   %d2_process_op_clms();
 
-   *identify IP stays that can potentially trigger BPCI-A episodes;
-   %c4_trigger_anchor_ip();
+   *identify qualifying IP stays to be grouped to episodes;
+   %d3_process_ip_clms();
 
-   *identify OP lines that can potentially trigger BPCI-A episodes;
-   %c5_trigger_anchor_op();
+   *identify qualifying DM claim-lines to be grouped to episodes;
+   %d4_process_dm_clms();
 
-   *create flags to indicate the reasons for excluding episodes;
-   %c6_create_exclusion_flags();
+   *identify qualifying PB claim-lines to be grouped to episodes;
+   %d5_process_pb_clms();
+
+   *identify qualifying SN claim-lines to be grouped to episodes;
+   %d6_process_hs_clms();
+
+   *identify qualifying HS claim to be grouped to episodes;
+   %d7_process_sn_clms();
+
+   *identify qualifying HH claim to be grouped to episodes;
+   %d8_process_hh_clms();
+
+   *calculate total cost of all qualifying claims grouped to episodes;
+   %d9_calculate_grouped_costs();
   
 %mend;

@@ -1,7 +1,7 @@
 /*************************************************************************;
 %** PROGRAM: a1_utility_macros.sas
-%** PURPOSE: Provides quick functions that perform regular task
-%** AUTHOR: Acumen
+%** PURPOSE: To provide functions that perform quick and regular tasks
+%** AUTHOR: Acumen, LLC
 %** DATE CREATED: 09/06/2024
 %** DATE LAST MODIFIED: 09/06/2024
 ************************************************************************;
@@ -104,7 +104,7 @@ RESTRICTED RIGHTS NOTICE (SEPT 2014)
 
    %mend MkDirs;
 
-   *to create log file;
+   *function to create log file;
    %macro create_log_file(log_file_name =);
       *set log file location; 
       x "mkdir &log_dir.";
@@ -113,4 +113,38 @@ RESTRICTED RIGHTS NOTICE (SEPT 2014)
       proc printto log = "&log_dir.\&run_date.\&log_file_name..log" new;
       run;
    %mend;
+   
+   *function to make a lit separated by commas; 
+   %macro clist(input_list, DLM=%str( ), noise=0);
+      %local return_list i;
+
+      %*create macarray using input_list, so we can loop through and add commas in between the items in the list;
+      %macarray(_tmp_list_, &input_list, DLM=&DLM, noise=&noise)
+
+      %let return_list = ;
+      %do i=1 %to &n_tmp_list_;
+         %*add a comma before every item, starting with the second item;
+         %if &i>1 %then %let return_list = &return_list, &&_tmp_list_&i;
+         %else          %let return_list = &return_list  &&_tmp_list_&i;
+      %end;
+
+      %*here is the "return statement", the value of return_list will be placed where the %clist macro call occurs. %clist(...) --> &return_list;
+      &return_list
+   %mend;   
+   
+   *function to make a list of quoted elements, separated by a specified delimiter; 
+   %macro quotelst(str, quote=%str(%"), delim=%str( ));
+      %local i quotelst;
+      %let i=1;
+
+      %do %while(%length(%scan(&str,&i,%str( ))) GT 0);
+         %if %length(&quotelst.) EQ 0 %then %let quotelst=&quote.%scan(&str,&i,%str( ))&quote;
+         %else %let quotelst=&quotelst.&quote.%scan(&str,&i,%str( ))&quote;
+         %let i=%eval(&i.+1);
+         %if %length(%scan(&str,&i,%str( ))) GT 0 %then %let quotelst=&quotelst.&delim;
+      %end;
+
+      %unquote(&quotelst)
+   %mend;
+   
 %mend;

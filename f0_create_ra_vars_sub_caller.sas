@@ -1,6 +1,6 @@
 /*************************************************************************;
-%** PROGRAM: c0_construct_episodes_sub_caller.sas
-%** PURPOSE: To select and execute sub-macros in c series
+%** PROGRAM: f0_create_ra_variables_sub_caller.sas
+%** PURPOSE: To select and execute sub-callers/macros in f series
 %** AUTHOR: Acumen, LLC
 %** DATE CREATED: 09/06/2024
 %** DATE LAST MODIFIED: 09/06/2024
@@ -21,27 +21,31 @@ RESTRICTED RIGHTS NOTICE (SEPT 2014)
 
 (End of notice)
 *************************************************************************/
-%macro c0_construct_episodes_sub_caller();
+%macro f0_create_ra_vars_sub_caller();
 
    *print log;
-   %create_log_file(log_file_name = c0_construct_episodes_sub_caller);
-  
-   *map MS-DRGs to represent the performing FYs;
-   %c1_remap_ms_drg();
+   %create_log_file(log_file_name = f0_create_ra_variables_sub_caller);
 
-   *create provider type indicators for IP stays and OP claim-lines;
-   %c2_flag_provider_types();
+   *add beneficiary level variables;
+   %f1_add_bene_ra_vars();
 
-   *resolve acute to acute transfer stays;
-   %c3_resolve_transfer_stays();
+   *add provider level variables and time trend variables;
+   %f2_add_prov_ra_vars();
+   
+   *add HCC flags;
+   %f3_add_hccs();
 
-   *identify IP stays that can potentially trigger BPCI-A episodes;
-   %c4_trigger_anchor_ip();
-
-   *identify OP lines that can potentially trigger BPCI-A episodes;
-   %c5_trigger_anchor_op();
-
-   *create flags to indicate the reasons for excluding episodes;
-   %c6_create_exclusion_flags();
+   *add covid infection rates;   
+   %f4_add_covid_inf_rates();
+   
+   *add indicator for beneficiary that utilized any post-acute care services prior to the episodes;  
+   %f5_add_prior_hosp_flags();
+   
+   *add dual eligibility flag for beneficiaries that are eligible for both Medicare and Medicaid; 
+   %f6_add_dual_elig_flags();
+   
+   *add flag to indicate safety net hospitals; 
+   %f7_add_safety_net_flags();
+   
   
 %mend;

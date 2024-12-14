@@ -1,6 +1,6 @@
 /*************************************************************************;
-%** PROGRAM: c0_construct_episodes_sub_caller.sas
-%** PURPOSE: To select and execute sub-macros in c series
+%** PROGRAM: b4_prep_aco_algnms.sas
+%** PURPOSE: To pre-process ACO alignment files if needed
 %** AUTHOR: Acumen, LLC
 %** DATE CREATED: 09/06/2024
 %** DATE LAST MODIFIED: 09/06/2024
@@ -21,27 +21,8 @@ RESTRICTED RIGHTS NOTICE (SEPT 2014)
 
 (End of notice)
 *************************************************************************/
-%macro c0_construct_episodes_sub_caller();
 
-   *print log;
-   %create_log_file(log_file_name = c0_construct_episodes_sub_caller);
-  
-   *map MS-DRGs to represent the performing FYs;
-   %c1_remap_ms_drg();
-
-   *create provider type indicators for IP stays and OP claim-lines;
-   %c2_flag_provider_types();
-
-   *resolve acute to acute transfer stays;
-   %c3_resolve_transfer_stays();
-
-   *identify IP stays that can potentially trigger BPCI-A episodes;
-   %c4_trigger_anchor_ip();
-
-   *identify OP lines that can potentially trigger BPCI-A episodes;
-   %c5_trigger_anchor_op();
-
-   *create flags to indicate the reasons for excluding episodes;
-   %c6_create_exclusion_flags();
-  
-%mend;
+%macro b4_prep_aco_algnms();
+   
+   
+%mend; 

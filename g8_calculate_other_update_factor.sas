@@ -1,6 +1,6 @@
 /*************************************************************************;
-%** PROGRAM: c0_construct_episodes_sub_caller.sas
-%** PURPOSE: To select and execute sub-macros in c series
+%** PROGRAM: g8_calculate_other_update_factor.sas
+%** PURPOSE: To calculate other update factor (MEI) for post-anchor period cost
 %** AUTHOR: Acumen, LLC
 %** DATE CREATED: 09/06/2024
 %** DATE LAST MODIFIED: 09/06/2024
@@ -21,27 +21,24 @@ RESTRICTED RIGHTS NOTICE (SEPT 2014)
 
 (End of notice)
 *************************************************************************/
-%macro c0_construct_episodes_sub_caller();
 
-   *print log;
-   %create_log_file(log_file_name = c0_construct_episodes_sub_caller);
-  
-   *map MS-DRGs to represent the performing FYs;
-   %c1_remap_ms_drg();
+%macro g8_calculate_other_update_factor();
 
-   *create provider type indicators for IP stays and OP claim-lines;
-   %c2_flag_provider_types();
+   *all services not categorized as IPPS, PB, IRF, SNF, or HH are considered in the "other" category;
+   *use the medicare economic index (MEI) as the update factor for the "other" category;
+   data temp.other_post_anchor_update_factor (keep = other_year other_update_factor);
 
-   *resolve acute to acute transfer stays;
-   %c3_resolve_transfer_stays();
+      set mei.medicare_economic_index;
+      %do year = %eval(&baseline_start_year.+1) %to &baseline_end_year.;
+         other_year = &year.;
+         %do yr = &year. %to &update_factor_cy.;
+            %let yr_last_2_digits = %sysfunc(substr("&yr.", 4, 2));
+            mei_rate_&yr. = cy_&yr_last_2_digits.;
+         %end;
+         other_update_factor = ((1 + mei_rate_&year./100)**&other_cur_yr_wgt.) * %do yr = %eval(&year.+1) %to &update_factor_cy.; (1 + mei_rate_&yr./100) %if &yr. ^= &update_factor_cy. %then *; %end;;
+         output temp.other_post_anchor_update_factor;
+      %end;
 
-   *identify IP stays that can potentially trigger BPCI-A episodes;
-   %c4_trigger_anchor_ip();
-
-   *identify OP lines that can potentially trigger BPCI-A episodes;
-   %c5_trigger_anchor_op();
-
-   *create flags to indicate the reasons for excluding episodes;
-   %c6_create_exclusion_flags();
-  
-%mend;
+   run;
+   
+%mend; 

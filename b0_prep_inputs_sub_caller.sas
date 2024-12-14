@@ -1,6 +1,6 @@
 /*************************************************************************;
-%** PROGRAM: c0_construct_episodes_sub_caller.sas
-%** PURPOSE: To select and execute sub-macros in c series
+%** PROGRAM: b0_prep_inputs_sub_caller.sas
+%** PURPOSE: To select and execute sub-macros in b series
 %** AUTHOR: Acumen, LLC
 %** DATE CREATED: 09/06/2024
 %** DATE LAST MODIFIED: 09/06/2024
@@ -21,27 +21,24 @@ RESTRICTED RIGHTS NOTICE (SEPT 2014)
 
 (End of notice)
 *************************************************************************/
-%macro c0_construct_episodes_sub_caller();
+%macro b0_prep_inputs_sub_caller(import = 0);
 
    *print log;
-   %create_log_file(log_file_name = c0_construct_episodes_sub_caller);
+   %create_log_file(log_file_name = b0_prep_inputs_sub_caller);
+
+   *import clinical logic workbooks;
+   %if &import = 1 %then %do;
+      %b1_import_clinical_logic();
+   %end;
   
-   *map MS-DRGs to represent the performing FYs;
-   %c1_remap_ms_drg();
+   *pre-process GPCI and Anesthesia conversion factor for PB update factor; 
+   %b2_prep_gpci_and_anes();
 
-   *create provider type indicators for IP stays and OP claim-lines;
-   %c2_flag_provider_types();
+   *pre-process GMLOS data for IPPS update factor and other input data; 
+   %b3_prep_gmlos_and_others();
 
-   *resolve acute to acute transfer stays;
-   %c3_resolve_transfer_stays();
-
-   *identify IP stays that can potentially trigger BPCI-A episodes;
-   %c4_trigger_anchor_ip();
-
-   *identify OP lines that can potentially trigger BPCI-A episodes;
-   %c5_trigger_anchor_op();
-
-   *create flags to indicate the reasons for excluding episodes;
-   %c6_create_exclusion_flags();
-  
+   *pre-process ACO alignment files (if needed); 
+   %b4_prep_aco_algnms();
+   
+      
 %mend;

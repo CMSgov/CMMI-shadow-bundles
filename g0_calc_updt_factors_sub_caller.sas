@@ -1,6 +1,6 @@
 /*************************************************************************;
-%** PROGRAM: c0_construct_episodes_sub_caller.sas
-%** PURPOSE: To select and execute sub-macros in c series
+%** PROGRAM: g0_calc_updt_factors_sub_caller.sas
+%** PURPOSE: To select and execute sub-callers/macros in g series
 %** AUTHOR: Acumen, LLC
 %** DATE CREATED: 09/06/2024
 %** DATE LAST MODIFIED: 09/06/2024
@@ -21,27 +21,42 @@ RESTRICTED RIGHTS NOTICE (SEPT 2014)
 
 (End of notice)
 *************************************************************************/
-%macro c0_construct_episodes_sub_caller();
+%macro g0_calc_updt_factors_sub_caller();
 
    *print log;
-   %create_log_file(log_file_name = c0_construct_episodes_sub_caller);
-  
-   *map MS-DRGs to represent the performing FYs;
-   %c1_remap_ms_drg();
+   %create_log_file(log_file_name = g0_calc_updt_factors_sub_caller);
 
-   *create provider type indicators for IP stays and OP claim-lines;
-   %c2_flag_provider_types();
+   *gather claims to be used for calculating the update factors;
+   %g1_gather_clms_for_updt_factors();
 
-   *resolve acute to acute transfer stays;
-   %c3_resolve_transfer_stays();
+   *calculate IPPS update factor for anchor and post-anchor period cost;
+   %g2_calculate_ipps_update_factor();
 
-   *identify IP stays that can potentially trigger BPCI-A episodes;
-   %c4_trigger_anchor_ip();
+   *calculate OPPS update factor for anchor period cost;
+   %g3_calculate_opps_update_factor();
 
-   *identify OP lines that can potentially trigger BPCI-A episodes;
-   %c5_trigger_anchor_op();
+   *calculate PB update factor for post-anchor period cost;
+   %g4_calculate_pb_update_factor();
 
-   *create flags to indicate the reasons for excluding episodes;
-   %c6_create_exclusion_flags();
-  
+   *calculate HH update factor for post-anchor period cost;
+   %g5_calculate_hh_update_factor();
+
+   *calculate SN update factor for post-anchor period cost;
+   %g6_calculate_sn_update_factor();
+
+   *calculate IRF update factor for post-anchor period cost;
+   %g7_calculate_irf_update_factor();
+
+   *calculate other update factor (MEI);
+   %g8_calculate_other_update_factor();
+
+   *gather all claims/episodes to calculate the weights for update factors;
+   %g9_aggregate_clms_for_uf_weights();
+
+   *calculate and apply final update factors to episode cost;   
+   %g10_apply_final_update_factor(); 
+   
+   *cap episode updated cost at 1st and 99th percentile;
+   %g11_winsorize_episode_cost();
+   
 %mend;
