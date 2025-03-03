@@ -2,7 +2,27 @@
 
 
 ## About the Project
-**{project statement}**
+This repository contains all the SAS programs for users to create their own shadow bundles Clinical Episodes using the Bundled Payment for Care Improvement (BPCI) Advanced-style methodology.
+
+Shadow bundles are Medicare claims data for items and services and their associated payments constructed into discrete procedural- and/or condition-specific acute episodes of care. Based on these Clinical Episodes, Benchmark Prices are constructed to  estimate expected spending and provide opportunities for sharing savings with providers. Shadow bundles episode definitions and Benchmark Price construction leverage the BPCI Advanced model Clinical Episode Construction and Target Price methodologies, but are adapted to be specific to Accountable Care Organizations (ACOs). 
+
+A shadow bundles Clinical Episode is triggered by an inpatient stay or outpatient procedure (i.e., the “anchor” period), and also includes the 90-day post-anchor period which starts upon a beneficiary’s discharge. These Clinical Episodes are grouped into 34 Clinical Episode Categories (29 inpatient, three outpatient, two multi-setting), and the Categories are further nested under eight Clinical Episode Service Line Groups. All costs which overlap with the Clinical Episode period (both anchor and post-anchor) are included in Clinical Episode spending, unless they meet a specific payment-level exclusion. Clinical Episodes are constructed for two periods: a historical baseline period, which is used to construct Benchmark Prices, and a Performance Year, to which ACOs compare their Performance Year Clinical Episode spending against their Benchmark Price. Benchmark Prices are calculated for each Clinical Episode Category and are comprised of components to account for: 
+
+•	Historical spending adjustment of a provider in the baseline period through risk- and peer-standardized Clinical Episode spending; 
+•	Patient case mix (i.e., patient severity outside the provider’s control); 
+•	Persistent differences in patient case mix adjusted spending across peer groups (i.e., hospitals with similar characteristics such as safety net status, census division, or major teaching hospital status) over the entire baseline period; and 
+•	Projected trends in spending among the provider’s peer group 
+
+The goal of this repository is to allow users the chance to understand shadow bundles and BPCI Advanced style methodology using their own claims data, particularly before the BPCI Advanced model concludes at the end of 2025. Once BPCI Advanced sunsets, users will still be able to produce their own BPCI-A style shadow bundles using the code in this repository. Additionally, it also provides users the opportunity to apply this methodology to any beneficiary population, even those beyond Medicare Fee For Service, if desired. Currently, this repository includes all SAS programs relevant to creating baseline period Clinical Episodes. In the future, this repository will be updated to include code for conducting risk adjustment, creating Benchmark Prices, and then Performance Year Clinical Episodes. 
+
+Aside from the SAS programs, the repository also includes the following input files and resources:
+
+•	**Roadmap**: This is a summary of all SAS programs, their purpose, and relevant input and output datasets of each program. This roadmap will be updated with every set of SAS programs released in the repository.
+•	**Data Dictionary**: This lists all variables across the SAS programs, their descriptions, and whether they are created in the shadow bundles SAS programs or in an external data source
+•	**Clinical Logic workbooks**: These are input files required to run certain SAS programs. This includes Clinical Episode trigger MS-DRG/HCPCS lists and various exclusion lists. 
+•	**Inputs Resource**: This summarizes all Clinical Logic workbooks provided in the repository. It also summarizes all CMS public use files (PUFs) required to run the code, including guidance on downloading the dataset from the CMS website and relevant variables. 
+
+For additional information on methodology, users can also review the BPCI Advanced Model Year 8 Clinical Episode Construction and Target Price Specifications located on the BPCI Advanced [Participant Resources](https://www.cms.gov/priorities/innovation/innovation-models/bpci-advanced/participant-resources) webpage, with the caveat that there are some methodological differences between BPCI Advanced and BPCI Advanced-style shadow bundles.
 
 <!-- 
 ### Project Mission
